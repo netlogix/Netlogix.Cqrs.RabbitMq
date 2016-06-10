@@ -1,0 +1,16 @@
+{
+	"name": "netlogix/cqrs-rabbitmq",
+	"type": "typo3-flow-package",
+	"description": "RabbitMq transport for commands",
+	"require": {
+		"typo3/flow": "*",
+		"netlogix/cqrs": "*",
+		"netlogix/jsonapiorg": "*",
+		"php-amqplib/php-amqplib": "^2.6"
+	},
+	"autoload": {
+		"psr-0": {
+			"Netlogix\\Cqrs\\RabbitMq": "Classes"
+		}
+	}
+}
