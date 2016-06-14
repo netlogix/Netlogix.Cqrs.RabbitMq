@@ -91,7 +91,7 @@ class CommandQueueCommandController extends CommandController {
 	}
 
 	public function processMessage(\PhpAmqpLib\Message\AMQPMessage $msg) {
-		$this->persistenceManager->clearState();
+//		$this->persistenceManager->clearState();
 
 		/** @var AMQPChannel $channel */
 		$channel = $msg->delivery_info['channel'];
@@ -101,12 +101,14 @@ class CommandQueueCommandController extends CommandController {
 			unset($data['id']);
 
 			$command = $this->propertyMapper->convert($data, Command::class);
+			$this->outputLine('<success>%s</success>: Execute %s', [date('H:i:s', time()), get_class($command)]);
 
 			$this->commandBus->delegate($command);
 
 			$channel->basic_ack($msg->delivery_info['delivery_tag']);
 		} catch (\Exception $e) {
 			$channel->basic_nack($msg->delivery_info['delivery_tag']);
+			$this->outputLine('<error>%s: ERROR %s</error>', [date('H:i:s', time()), $e->getMessage()]);
 		}
 
 		$this->persistenceManager->persistAll();
