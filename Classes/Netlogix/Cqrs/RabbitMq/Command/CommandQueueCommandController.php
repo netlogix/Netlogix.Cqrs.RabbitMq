@@ -56,6 +56,7 @@ class CommandQueueCommandController extends CommandController {
 		$queueName = 'cli-consumer-' . gethostname();
 		$this->initializeQueue($channel, $queueName);
 
+		$channel->basic_qos(null, 1, null);
 		$channel->basic_consume($queueName, '', FALSE, FALSE, FALSE, FALSE, array($this, 'processMessage'));
 
 		while (count($channel->callbacks)) {
