@@ -8,7 +8,7 @@ namespace Netlogix\Cqrs\RabbitMq\Command;
 use Doctrine\ORM\OptimisticLockException;
 use Netlogix\Cqrs\Command\Command;
 use Netlogix\Cqrs\Command\CommandBus;
-use Netlogix\Cqrs\RabbitMq\Amqp\Connection;
+use Netlogix\Cqrs\RabbitMq\Amqp\ConnectionInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use TYPO3\Flow\Cli\CommandController;
 use TYPO3\Flow\Annotations as Flow;
@@ -23,7 +23,7 @@ use TYPO3\Flow\Property\PropertyMapper;
 class CommandQueueCommandController extends CommandController {
 
 	/**
-	 * @var Connection
+	 * @var ConnectionInterface
 	 * @Flow\Inject
 	 */
 	protected $rabbitMqConnection;
