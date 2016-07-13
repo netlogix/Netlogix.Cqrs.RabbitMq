@@ -7,7 +7,7 @@ namespace Netlogix\Cqrs\RabbitMq\Command;
 
 use Netlogix\Cqrs\Command\AbstractCommand;
 use Netlogix\Cqrs\Log\CommandLogEntry;
-use Netlogix\Cqrs\RabbitMq\Amqp\Connection;
+use Netlogix\Cqrs\RabbitMq\Amqp\ConnectionInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use TYPO3\Flow\Annotations as Flow;
 use Netlogix\Cqrs\Command\AsynchronousCommandInterface;
@@ -22,7 +22,7 @@ use TYPO3\Flow\Persistence\PersistenceManagerInterface;
 class RabbitMqCommandHandler implements CommandHandlerInterface {
 
 	/**
-	 * @var Connection
+	 * @var ConnectionInterface
 	 * @Flow\Inject
 	 */
 	protected $rabbitMqConnection;

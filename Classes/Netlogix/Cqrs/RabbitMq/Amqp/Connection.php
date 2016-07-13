@@ -12,7 +12,7 @@ use TYPO3\Flow\Annotations as Flow;
 /**
  * @Flow\Scope("singleton")
  */
-class Connection {
+class Connection implements ConnectionInterface {
 
 	/**
 	 * @var AMQPChannel
@@ -58,12 +58,12 @@ class Connection {
 		}
 		return $this->channel;
 	}
-	
+
 	protected function open() {
 		$connection = new AMQPStreamConnection($this->host, $this->port, $this->user, $this->password, $this->vhost);
 		$this->channel = $connection->channel();
 	}
-	
+
 	protected function close() {
 		$this->channel->close();
 		$this->channel->getConnection()->close();
