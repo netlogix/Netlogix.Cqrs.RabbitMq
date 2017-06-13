@@ -1,0 +1,11 @@
+Netlogix:
+  Cqrs:
+    RabbitMq:
+      amqpConnection:
+        host: ''
+        port: '5672'
+        user: ''
+        password: ''
+        vhost: ''
+        exchange: ''
+        retryCount: 10
