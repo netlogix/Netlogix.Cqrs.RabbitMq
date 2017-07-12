@@ -53,6 +53,12 @@ class CommandQueueCommandController extends CommandController {
 	protected $exchangeName;
 
 	/**
+	 * @var int
+	 * @Flow\InjectConfiguration(path="amqpConnection.retryCount")
+	 */
+	protected $retryCount;
+
+	/**
 	 * @var array
 	 * @Flow\InjectConfiguration(package="TYPO3.Flow")
 	 */
@@ -161,8 +167,14 @@ class CommandQueueCommandController extends CommandController {
 
 			$channel->basic_ack($msg->delivery_info['delivery_tag']);
 		} catch (SubProcessException $e) {
-			$channel->basic_nack($msg->delivery_info['delivery_tag']);
-			fwrite(STDERR, $e->getMessage() . PHP_EOL);
+			if ($msg->has('application_headers') &&
+				intval($msg->get('application_headers')->getNativeData()['x-death'][0]['count']) >= $this->retryCount) {
+				$channel->basic_ack($msg->delivery_info['delivery_tag']);
+				fwrite(STDERR, 'Giving up on message after ' . $this->retryCount . ' retries' . PHP_EOL);
+			} else {
+				$channel->basic_nack($msg->delivery_info['delivery_tag']);
+				fwrite(STDERR, $e->getMessage() . PHP_EOL);
+			}
 		}
 	}
 
