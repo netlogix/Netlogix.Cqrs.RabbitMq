@@ -34,7 +34,11 @@ class NoOpConnection implements ConnectionInterface
 			/** @var \PHPUnit_Framework_SkippedTestCase $testCase */
 			$testCase = $this->objectManager->get('PHPUnit_Framework_SkippedTestCase', ConnectionInterface::class,
 				'getChannel');
-			$this->channel = $testCase->getMock(AMQPChannel::class, [], [], '', false);
+
+			$this->channel = $testCase
+				->getMockBuilder(AMQPChannel::class)
+				->disableOriginalConstructor()
+				->getMock();
 		}
 		return $this->channel;
 	}
