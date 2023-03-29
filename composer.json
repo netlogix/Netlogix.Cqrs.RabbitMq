@@ -13,4 +13,5 @@
 			"Netlogix\\Cqrs\\RabbitMq": "Classes"
 		}
 	}
+	"abandoned": true
 }
